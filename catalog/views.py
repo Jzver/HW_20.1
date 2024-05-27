@@ -12,7 +12,7 @@ def home(request):
 def products_list(request):
     products = Product.objects.all()
     context = {"products": products}
-    return render(request, 'products_list.html', context)
+    return render(request, "products_list.html", context)
 
 
 def product_detail(request, pk):
