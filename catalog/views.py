@@ -10,9 +10,11 @@ def home(request):
 
 
 def products_list(request):
-    products = Product.objects.all()
+    # Если есть связанные модели, используйте select_related или prefetch_related
+    products = Product.objects.all().select_related('category')
     context = {"products": products}
     return render(request, "products_list.html", context)
+
 
 
 def product_detail(request, pk):
