@@ -16,18 +16,21 @@ class Command(BaseCommand):
             self._create_categories(categories_data)
             self._create_products(products_data)
 
-    def _truncate_tables(self):
+    @staticmethod
+    def _truncate_tables():
         with connection.cursor() as cursor:
             cursor.execute("TRUNCATE TABLE catalog_category RESTART IDENTITY CASCADE;")
             cursor.execute("TRUNCATE TABLE catalog_product RESTART IDENTITY CASCADE;")
         Product.objects.all().delete()
         Category.objects.all().delete()
 
-    def _create_categories(self, categories_data):
+    @staticmethod
+    def _create_categories(categories_data):
         category_for_create = [Category(**category) for category in categories_data]
         Category.objects.bulk_create(category_for_create)
 
-    def _create_products(self, products_data):
+    @staticmethod
+    def _create_products(products_data):
         categories = Category.objects.in_bulk(field_name='pk')
         product_for_create = [
             Product(
